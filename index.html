@@ -1,0 +1,860 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday MADHUMITHA 🎂✨</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Poppins:wght@400;600;700;800;900&display=swap');
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      overflow-x: hidden;
+      background: #05030a;
+      color: #f8fafc;
+      scroll-behavior: smooth;
+    }
+
+    .font-cursive {
+      font-family: 'Dancing Script', cursive;
+    }
+
+    /* Floating stars background */
+    .stars-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 0;
+      background: radial-gradient(ellipse at bottom, #190933 0%, #030207 100%);
+    }
+
+    /* Candle Flame animation */
+    .flame {
+      width: 16px;
+      height: 28px;
+      background: linear-gradient(#fff, #ff0, #f90, #f00);
+      border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+      animation: flicker 0.5s ease-in-out infinite alternate;
+      box-shadow: 0 0 20px #ff0, 0 0 40px #f90, 0 0 60px #f00;
+    }
+
+    @keyframes flicker {
+      0% { transform: scale(1) rotate(-3deg); opacity: 1; }
+      100% { transform: scale(1.2) rotate(3deg); opacity: 0.9; }
+    }
+
+    .flame.off {
+      display: none;
+    }
+
+    /* Dark Glassmorphism cards */
+    .glass-card {
+      background: rgba(255, 255, 255, 0.06);
+      backdrop-filter: blur(18px);
+      -webkit-backdrop-filter: blur(18px);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.7);
+    }
+
+    .timer-badge {
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(251, 113, 133, 0.4);
+      box-shadow: 0 4px 25px rgba(251, 113, 133, 0.25);
+    }
+
+    /* Polaroid photo frame */
+    .polaroid {
+      background: white;
+      padding: 10px 10px 25px 10px;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.4);
+      transform: rotate(-2deg);
+      transition: all 0.3s ease;
+    }
+    .polaroid:nth-child(even) {
+      transform: rotate(2deg);
+    }
+    .polaroid:hover {
+      transform: scale(1.05) rotate(0deg);
+      z-index: 20;
+    }
+
+    html, body {
+      width: 100%;
+      min-height: 100vh;
+      margin: 0;
+      padding: 0;
+      overflow-x: hidden;
+    }
+
+    /* Full Screen Viewport Container */
+    .story-section {
+      display: none;
+      opacity: 0;
+      transform: scale(0.98);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      min-height: 100vh;
+      width: 100%;
+      box-sizing: border-box;
+      padding: 2rem 1rem;
+    }
+
+    .story-section.active {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      opacity: 1;
+      transform: scale(1);
+    }
+  </style>
+</head>
+<body class="min-h-screen w-full relative flex flex-col justify-between items-center bg-[#05030a]">
+
+  <!-- Background Canvas for Fireworks & Stars -->
+  <div class="stars-bg"></div>
+  <canvas id="fireworksCanvas" class="fixed inset-0 pointer-events-none z-30"></canvas>
+
+  <!-- YOUTUBE EMBEDDED PLAYER FOR THAARAME THAARAME (gB1gPmtDohY) -->
+  <div class="hidden">
+    <div id="ytplayer"></div>
+  </div>
+
+  <!-- FALLBACK BACKGROUND SONG AUDIO -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=romantic-guitars-113586.mp3" type="audio/mpeg">
+  </audio>
+
+  <!-- FLOATING TOP MUSIC PILL REMOVED FOR CLEAN MINIMALIST UI -->
+
+  <!-- MAIN CLEAN STORY CONTAINER (100% FULL SCREEN VIEW) -->
+  <main class="relative z-10 w-full min-h-screen flex flex-col justify-center items-center">
+
+    <!-- SECTION 1: HERO & AUTOMATIC FIREWORKS COUNTDOWN (NO BUTTONS) -->
+    <section id="section-1" class="story-section active w-full py-8">
+      <div class="glass-card rounded-3xl p-6 md:p-12 text-center shadow-2xl relative overflow-hidden w-full max-w-3xl">
+
+        <h1 class="text-4xl md:text-6xl font-black mb-10 text-white tracking-tight">
+          Happy Birthday <span class="bg-gradient-to-r from-rose-400 via-amber-300 to-pink-500 bg-clip-text text-transparent">Madhumitha</span>! 🎂
+        </h1>
+
+        <!-- Live Countdown Timer -->
+        <div class="grid grid-cols-4 gap-3 md:gap-5 max-w-md mx-auto mb-6">
+          <div class="timer-badge p-4 rounded-2xl">
+            <div id="days" class="text-2xl md:text-4xl font-extrabold text-rose-400">00</div>
+            <div class="text-[10px] md:text-xs text-slate-400 uppercase font-bold tracking-wider mt-1">Days</div>
+          </div>
+          <div class="timer-badge p-4 rounded-2xl">
+            <div id="hours" class="text-2xl md:text-4xl font-extrabold text-amber-300">00</div>
+            <div class="text-[10px] md:text-xs text-slate-400 uppercase font-bold tracking-wider mt-1">Hours</div>
+          </div>
+          <div class="timer-badge p-4 rounded-2xl">
+            <div id="minutes" class="text-2xl md:text-4xl font-extrabold text-purple-400">00</div>
+            <div class="text-[10px] md:text-xs text-slate-400 uppercase font-bold tracking-wider mt-1">Mins</div>
+          </div>
+          <div class="timer-badge p-4 rounded-2xl">
+            <div id="seconds" class="text-2xl md:text-4xl font-extrabold text-emerald-400">00</div>
+            <div class="text-[10px] md:text-xs text-slate-400 uppercase font-bold tracking-wider mt-1">Secs</div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SECTION 2: INTERACTIVE CAKE & CANDLE BLOWING (FULL SCREEN) -->
+    <section id="section-2" class="story-section w-full py-8">
+      <div class="glass-card rounded-3xl p-6 md:p-12 text-center shadow-2xl w-full max-w-2xl">
+
+        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-6">
+          Make a Birthday Wish, Madhumitha! ✨
+        </h2>
+
+        <!-- Birthday Cake Visual -->
+        <div onclick="blowCandle()" class="cursor-pointer group relative inline-block my-8 transform transition hover:scale-105">
+          <div class="flex justify-center items-center space-x-4 mb-1">
+            <div class="flex flex-col items-center">
+              <div id="flame1" class="flame"></div>
+              <div class="w-2.5 h-7 bg-amber-200 rounded-t-sm shadow-inner"></div>
+            </div>
+            <div class="flex flex-col items-center">
+              <div id="flame2" class="flame"></div>
+              <div class="w-2.5 h-9 bg-rose-300 rounded-t-sm shadow-inner"></div>
+            </div>
+            <div class="flex flex-col items-center">
+              <div id="flame3" class="flame"></div>
+              <div class="w-2.5 h-7 bg-amber-200 rounded-t-sm shadow-inner"></div>
+            </div>
+          </div>
+
+          <!-- Cake Tiers -->
+          <div class="w-48 md:w-56 h-12 bg-gradient-to-r from-pink-400 via-rose-300 to-pink-400 rounded-t-2xl mx-auto shadow-md border-b-4 border-pink-500/40 flex items-center justify-center">
+            <span class="text-xs font-bold text-rose-900 tracking-widest uppercase">✨ MADHUMITHA ✨</span>
+          </div>
+          <div class="w-60 md:w-68 h-14 bg-gradient-to-r from-purple-400 via-pink-400 to-purple-400 rounded-t-xl mx-auto shadow-lg border-b-4 border-purple-500/40 flex items-center justify-center">
+            <span class="text-white text-xs font-semibold">🎉 Happy Birthday 🎉</span>
+          </div>
+          <div class="w-68 md:w-76 h-6 bg-gradient-to-r from-amber-200 via-amber-300 to-amber-200 rounded-b-xl mx-auto shadow-xl"></div>
+          
+          <div class="mt-6 inline-block bg-rose-500/20 text-rose-300 text-xs px-5 py-2 rounded-full font-semibold group-hover:bg-rose-500/30 transition">
+            👇 Click Cake to Blow Candles 👇
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+
+    <!-- SECTION 3: PHOTO GALLERY & UPLOADER (FULL SCREEN) -->
+    <section id="section-3" class="story-section w-full py-8">
+      <div class="glass-card rounded-3xl p-6 md:p-10 shadow-2xl text-center w-full max-w-4xl">
+
+        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-6">
+          Sweet Memory Album 💖
+        </h2>
+
+
+
+        <!-- Polaroid Photo Grid -->
+        <div id="photoGallery" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 text-left my-6">
+          <!-- Polaroid Card 1 -->
+          <div class="polaroid">
+            <div class="h-64 bg-slate-100 rounded overflow-hidden flex items-center justify-center">
+              <img src="images/photo1.jpg" alt="Madhumitha Photo 1" class="w-full h-full object-cover">
+            </div>
+            <p class="font-cursive text-rose-600 text-xl font-bold mt-3 text-center">smile daily 😊</p>
+          </div>
+
+          <!-- Polaroid Card 2 -->
+          <div class="polaroid">
+            <div class="h-64 bg-slate-100 rounded overflow-hidden flex items-center justify-center">
+              <img src="images/photo2.jpg" alt="Madhumitha Photo 2" class="w-full h-full object-cover">
+            </div>
+            <p class="font-cursive text-rose-600 text-xl font-bold mt-3 text-center">i Love u daily 💖</p>
+          </div>
+
+          <!-- Polaroid Card 3 -->
+          <div class="polaroid">
+            <div class="h-64 bg-slate-100 rounded overflow-hidden flex items-center justify-center">
+              <img src="images/photo3.jpg" alt="Madhumitha Photo 3" class="w-full h-full object-cover">
+            </div>
+            <p class="font-cursive text-rose-600 text-xl font-bold mt-3 text-center">i will stay with u every situation 👩‍❤️‍👨</p>
+          </div>
+        </div>
+
+        <!-- Next Section Button -->
+        <div class="mt-10 pt-6 border-t border-white/10">
+          <button onclick="goToSection(4)" class="bg-gradient-to-r from-rose-500 via-pink-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white font-extrabold px-8 py-3.5 rounded-full text-sm md:text-base transition transform hover:scale-105 shadow-xl flex items-center justify-center space-x-2 mx-auto">
+            <span>Open Surprise Gift Boxes 🎁</span>
+            <span>➔</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+
+    <!-- SECTION 4: SURPRISE GIFT BOXES (FULL SCREEN) -->
+    <section id="section-4" class="story-section w-full py-8">
+      <div class="glass-card rounded-3xl p-6 md:p-10 shadow-2xl text-center w-full max-w-4xl">
+
+        <h2 class="text-3xl md:text-5xl font-extrabold text-white mb-8">
+          Unwrap Your Birthday Gifts 💝
+        </h2>
+
+        <!-- 3 Specific Gift Boxes -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          
+          <!-- Box 1: Kiss -->
+          <div onclick="openGift(1)" id="giftCard1" class="glass-card rounded-2xl p-6 border border-rose-500/30 hover:border-rose-400 transition cursor-pointer transform hover:-translate-y-2 group">
+            <div class="text-5xl md:text-6xl mb-3 group-hover:scale-110 transition duration-300">🎁</div>
+            <h3 class="font-extrabold text-white text-lg mb-1">Gift Box 1</h3>
+
+            <div id="giftReward1" class="hidden mt-4 pt-4 border-t border-white/10 animate-fade-in">
+              <span class="text-4xl block mb-2">💋</span>
+              <h4 class="font-extrabold text-rose-400 text-lg">1x Sweet Kiss</h4>
+              <p class="text-xs text-slate-300 mt-1">A sweet birthday kiss filled with love for Madhumitha! 💋</p>
+            </div>
+          </div>
+
+          <!-- Box 2: Hug -->
+          <div onclick="openGift(2)" id="giftCard2" class="glass-card rounded-2xl p-6 border border-purple-500/30 hover:border-purple-400 transition cursor-pointer transform hover:-translate-y-2 group">
+            <div class="text-5xl md:text-6xl mb-3 group-hover:scale-110 transition duration-300">🎁</div>
+            <h3 class="font-extrabold text-white text-lg mb-1">Gift Box 2</h3>
+
+            <div id="giftReward2" class="hidden mt-4 pt-4 border-t border-white/10 animate-fade-in">
+              <span class="text-4xl block mb-2">🤗</span>
+              <h4 class="font-extrabold text-purple-400 text-lg">1x Warm Hug</h4>
+              <p class="text-xs text-slate-300 mt-1">A tight warm birthday hug to wrap you in happiness! 🤗</p>
+            </div>
+          </div>
+
+          <!-- Box 3: Both Hug & Kiss -->
+          <div onclick="openGift(3)" id="giftCard3" class="glass-card rounded-2xl p-6 border border-amber-500/30 hover:border-amber-400 transition cursor-pointer transform hover:-translate-y-2 group">
+            <div class="text-5xl md:text-6xl mb-3 group-hover:scale-110 transition duration-300">🎁</div>
+            <h3 class="font-extrabold text-white text-lg mb-1">Gift Box 3</h3>
+
+            <div id="giftReward3" class="hidden mt-4 pt-4 border-t border-white/10 animate-fade-in">
+              <span class="text-4xl block mb-2">👩‍❤️‍💋‍👨</span>
+              <h4 class="font-extrabold text-amber-300 text-lg">Both Hug & Kiss</h4>
+              <p class="text-xs text-slate-300 mt-1">The ultimate double combo: Unlimited Warm Hugs & Sweet Kisses! 👩‍❤️‍💋‍👨</p>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Replay Button -->
+        <div class="mt-12 pt-6 border-t border-white/10">
+          <button onclick="goToSection(1)" class="bg-rose-500/20 hover:bg-rose-500/30 text-rose-300 border border-rose-500/40 px-6 py-2.5 rounded-full text-xs font-bold transition">
+            🔄 Replay From Beginning
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- 10-SECOND DARK SCREEN CINEMATIC OVERLAY -->
+  <div id="darkOverlay" class="fixed inset-0 bg-black/95 z-50 hidden flex-col items-center justify-center text-center p-6 transition-opacity duration-700">
+    <div class="max-w-md mx-auto space-y-4">
+      <span class="text-5xl animate-bounce block">✨🕯️✨</span>
+      <h3 class="text-2xl md:text-3xl font-extrabold text-rose-400">
+        Wish Made! Dimming Lights...
+      </h3>
+
+      <div class="text-6xl font-black text-white my-4" id="darkCountdown">10</div>
+
+      <div class="w-full bg-white/10 rounded-full h-2 overflow-hidden max-w-xs mx-auto">
+        <div id="darkProgressBar" class="bg-gradient-to-r from-rose-500 to-amber-300 h-full w-full transition-all duration-1000"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- YOUTUBE IFRAME PLAYER API -->
+  <script src="https://www.youtube.com/iframe_api"></script>
+  <script>
+    // -------------------------------------------------------------
+    // YOUTUBE PLAYER FOR THAARAME THAARAME (gB1gPmtDohY)
+    // -------------------------------------------------------------
+    let ytPlayer;
+    let ytReady = false;
+
+    function onYouTubeIframeAPIReady() {
+      ytPlayer = new YT.Player('ytplayer', {
+        height: '0',
+        width: '0',
+        videoId: 'gB1gPmtDohY',
+        playerVars: {
+          'autoplay': 0,
+          'controls': 0,
+          'loop': 1,
+          'playlist': 'gB1gPmtDohY'
+        },
+        events: {
+          'onReady': () => { ytReady = true; }
+        }
+      });
+    }
+
+    // -------------------------------------------------------------
+    // 1. SECTION CONTROLLER (Full Screen Progressive Reveal)
+    // -------------------------------------------------------------
+    let currentSection = 1;
+
+    function goToSection(secNum) {
+      currentSection = secNum;
+
+      document.querySelectorAll('.story-section').forEach(sec => {
+        sec.classList.remove('active');
+      });
+
+      const target = document.getElementById(`section-${secNum}`);
+      if (target) {
+        target.classList.add('active');
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    let hasAutoLaunched = false;
+
+
+    // -------------------------------------------------------------
+    // 2. LIVE COUNTDOWN TIMER (AUTOMATIC FIREWORKS AT OCTOBER 17 00:00:00)
+    // -------------------------------------------------------------
+    function updateCountdown() {
+      const currentYear = new Date().getFullYear();
+      let bdayDate = new Date(`October 17, ${currentYear} 00:00:00`).getTime();
+      const now = new Date().getTime();
+
+      const diff = bdayDate - now;
+
+      if (diff <= 0) {
+        document.getElementById('days').innerText = '00';
+        document.getElementById('hours').innerText = '00';
+        document.getElementById('minutes').innerText = '00';
+        document.getElementById('seconds').innerText = '00';
+
+        if (!hasAutoLaunched) {
+          hasAutoLaunched = true;
+          launchSequentialLetterRockets();
+          setTimeout(() => {
+            goToSection(2);
+          }, 6000);
+        }
+        return;
+      }
+
+      const d = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const h = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const m = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const s = Math.floor((diff % (1000 * 60)) / 1000);
+
+      document.getElementById('days').innerText = d < 10 ? '0' + d : d;
+      document.getElementById('hours').innerText = h < 10 ? '0' + h : h;
+      document.getElementById('minutes').innerText = m < 10 ? '0' + m : m;
+      document.getElementById('seconds').innerText = s < 10 ? '0' + s : s;
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+
+    // -------------------------------------------------------------
+    // 3. BACKGROUND MUSIC ENGINE ("Thaarame Thaarame" - Kadaram Kondan)
+    // -------------------------------------------------------------
+    let isPlaying = false;
+    const audio = document.getElementById('bgMusic');
+
+    function toggleMusic() {
+      const musicText = document.getElementById('musicText');
+      if (!isPlaying) {
+        if (ytReady && ytPlayer && ytPlayer.playVideo) {
+          ytPlayer.playVideo();
+          isPlaying = true;
+          if (musicText) musicText.innerText = 'Thaarame Playing 🎶';
+        } else {
+          audio.play().then(() => {
+            isPlaying = true;
+            if (musicText) musicText.innerText = 'Thaarame Playing 🎶';
+          }).catch(err => {
+            synthFallbackMelody();
+            isPlaying = true;
+            if (musicText) musicText.innerText = 'Melody Playing 🎶';
+          });
+        }
+      } else {
+        if (ytReady && ytPlayer && ytPlayer.pauseVideo) {
+          ytPlayer.pauseVideo();
+        }
+        audio.pause();
+        isPlaying = false;
+        if (musicText) musicText.innerText = 'Thaarame Song';
+      }
+    }
+
+    function synthFallbackMelody() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const notes = [261.63, 293.66, 329.63, 349.23, 392.00, 440.00, 493.88, 523.25];
+        let step = 0;
+        setInterval(() => {
+          if (!isPlaying) return;
+          const osc = ctx.createOscillator();
+          const gain = ctx.createGain();
+          osc.type = 'sine';
+          osc.frequency.value = notes[step % notes.length];
+          gain.gain.setValueAtTime(0.08, ctx.currentTime);
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.6);
+          osc.connect(gain);
+          gain.connect(ctx.destination);
+          osc.start();
+          osc.stop(ctx.currentTime + 0.6);
+          step++;
+        }, 450);
+      } catch(e) {}
+    }
+
+
+    // -------------------------------------------------------------
+    // 4. CANDLE BLOWING & 10s DARK SCREEN TRANSITION TO SECTION 3
+    // -------------------------------------------------------------
+    function blowCandle() {
+      document.getElementById('flame1').classList.add('off');
+      document.getElementById('flame2').classList.add('off');
+      document.getElementById('flame3').classList.add('off');
+
+      // Start Thaarame Thaarame YouTube Song
+      if (!isPlaying) toggleMusic();
+
+      // Show Dark Overlay
+      const overlay = document.getElementById('darkOverlay');
+      overlay.classList.remove('hidden');
+      overlay.classList.add('flex');
+
+      let timeLeft = 10;
+      const countEl = document.getElementById('darkCountdown');
+      const barEl = document.getElementById('darkProgressBar');
+
+      const timer = setInterval(() => {
+        timeLeft--;
+        countEl.innerText = timeLeft;
+        barEl.style.width = (timeLeft * 10) + '%';
+
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          overlay.classList.add('hidden');
+          overlay.classList.remove('flex');
+          
+          goToSection(3);
+        }
+      }, 1000);
+    }
+
+
+    // -------------------------------------------------------------
+    // 5. LOCAL PHOTO GALLERY UPLOADER
+    // -------------------------------------------------------------
+    function handlePhotoUpload(event) {
+      const files = event.target.files;
+      if (!files || files.length === 0) return;
+
+      const gallery = document.getElementById('photoGallery');
+
+      Array.from(files).forEach((file) => {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const card = document.createElement('div');
+          card.className = 'polaroid';
+          card.innerHTML = `
+            <div class="h-52 bg-slate-100 rounded overflow-hidden flex items-center justify-center">
+              <img src="${e.target.result}" alt="Uploaded Photo" class="w-full h-full object-cover">
+            </div>
+            <p class="font-cursive text-slate-800 text-lg font-bold mt-3 text-center">Special Memory 💕</p>
+          `;
+          gallery.prepend(card);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+
+    // -------------------------------------------------------------
+    // 6. GIFT BOX REVEAL LOGIC
+    // -------------------------------------------------------------
+    function openGift(boxNum) {
+      const reward = document.getElementById(`giftReward${boxNum}`);
+      if (reward) {
+        reward.classList.remove('hidden');
+        launchParticleExplosion();
+      }
+    }
+
+    function launchParticleExplosion() {
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const x = Math.random() * window.innerWidth;
+          const y = Math.random() * (window.innerHeight * 0.7);
+          createBurstParticles(x, y, ['#f43f5e', '#fbbf24', '#c084fc', '#34d399'][Math.floor(Math.random()*4)]);
+        }, i * 40);
+      }
+    }
+
+
+    // -------------------------------------------------------------
+    // 7. HIGH-DEFINITION SEQUENTIAL LETTER ROCKET EXPLOSION ENGINE
+    // -------------------------------------------------------------
+    const canvas = document.getElementById('fireworksCanvas');
+    const ctx = canvas.getContext('2d');
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+
+    let particles = [];
+    let activeRockets = [];
+    let letterEmblems = [];
+
+    class Rocket {
+      constructor(startX, targetX, targetY, letter, color, delay) {
+        this.x = startX;
+        this.y = canvas.height;
+        this.targetX = targetX;
+        this.targetY = targetY;
+        this.letter = letter;
+        this.color = color;
+        this.speed = 11;
+        this.angle = Math.atan2(targetY - canvas.height, targetX - startX);
+        this.vx = Math.cos(this.angle) * this.speed;
+        this.vy = Math.sin(this.angle) * this.speed;
+        this.exploded = false;
+        this.delay = delay;
+        this.launched = false;
+      }
+
+      update() {
+        if (this.delay > 0) {
+          this.delay--;
+          return;
+        }
+        if (!this.launched) {
+          this.launched = true;
+          playWhistleSound();
+        }
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        // Spark trail
+        particles.push(new SparkParticle(this.x, this.y, this.color));
+
+        const dist = Math.hypot(this.targetX - this.x, this.targetY - this.y);
+        if (dist < 15 || this.y <= this.targetY) {
+          this.exploded = true;
+          this.explode();
+        }
+      }
+
+      draw() {
+        if (!this.launched || this.exploded) return;
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 4, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = 15;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.restore();
+      }
+
+      explode() {
+        playBoomSound();
+        letterEmblems.push(new LetterEmblem(this.targetX, this.targetY, this.letter, this.color));
+        for (let i = 0; i < 45; i++) {
+          particles.push(new BurstParticle(this.targetX, this.targetY, this.color));
+        }
+      }
+    }
+
+    class SparkParticle {
+      constructor(x, y, color) {
+        this.x = x + (Math.random() - 0.5) * 4;
+        this.y = y + (Math.random() - 0.5) * 4;
+        this.vx = (Math.random() - 0.5) * 1.5;
+        this.vy = Math.random() * 2 + 1;
+        this.alpha = 1;
+        this.color = color;
+        this.size = Math.random() * 2.5 + 1;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.alpha -= 0.04;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    class BurstParticle {
+      constructor(x, y, color) {
+        this.x = x;
+        this.y = y;
+        const angle = Math.random() * Math.PI * 2;
+        const speed = Math.random() * 8 + 2;
+        this.vx = Math.cos(angle) * speed;
+        this.vy = Math.sin(angle) * speed;
+        this.alpha = 1;
+        this.color = color;
+        this.size = Math.random() * 3.5 + 1.5;
+        this.gravity = 0.08;
+      }
+      update() {
+        this.x += this.vx;
+        this.y += this.vy;
+        this.vy += this.gravity;
+        this.vx *= 0.96;
+        this.vy *= 0.96;
+        this.alpha -= 0.015;
+      }
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.fillStyle = this.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = this.color;
+        ctx.fill();
+        ctx.restore();
+      }
+    }
+
+    class LetterEmblem {
+      constructor(x, y, letter, color) {
+        this.x = x;
+        this.y = y;
+        this.letter = letter;
+        this.color = color;
+        this.scale = 0.2;
+        this.targetScale = 1;
+        this.alpha = 1;
+        this.life = 260; // ~5-6 seconds
+      }
+
+      update() {
+        if (this.scale < this.targetScale) {
+          this.scale += 0.08;
+        }
+        this.life--;
+        if (this.life < 40) {
+          this.alpha = this.life / 40;
+        }
+      }
+
+      draw() {
+        ctx.save();
+        ctx.globalAlpha = Math.max(0, this.alpha);
+
+        // Dark Emblem Backdrop Disc
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 32 * this.scale, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(9, 6, 20, 0.85)';
+        ctx.fill();
+        ctx.lineWidth = 3;
+        ctx.strokeStyle = this.color;
+        ctx.shadowBlur = 20;
+        ctx.shadowColor = this.color;
+        ctx.stroke();
+
+        // Glowing Outer Ring
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, 40 * this.scale, 0, Math.PI * 2);
+        ctx.lineWidth = 1.5;
+        ctx.strokeStyle = '#ffffff';
+        ctx.stroke();
+
+        // High-Definition Neon Letter Text
+        ctx.font = `900 ${Math.floor(36 * this.scale)}px 'Poppins', 'Arial Black', sans-serif`;
+        ctx.textAlign = 'center';
+        ctx.textBaseline = 'middle';
+        ctx.fillStyle = '#ffffff';
+        ctx.shadowBlur = 25;
+        ctx.shadowColor = this.color;
+        ctx.fillText(this.letter, this.x, this.y + 2);
+
+        ctx.restore();
+      }
+    }
+
+    function createBurstParticles(x, y, color) {
+      for (let i = 0; i < 20; i++) {
+        particles.push(new BurstParticle(x, y, color));
+      }
+    }
+
+    function playWhistleSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(400, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, ctx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.04, ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.001, ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.4);
+      } catch(e) {}
+    }
+
+    function playBoomSound() {
+      try {
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        if (!AudioCtx) return;
+        const ctx = new AudioCtx();
+        const osc = ctx.createOscillator();
+        const gain = ctx.createGain();
+        osc.type = 'triangle';
+        osc.frequency.setValueAtTime(130, ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, ctx.currentTime + 0.5);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime);
+        gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.5);
+        osc.connect(gain);
+        gain.connect(ctx.destination);
+        osc.start();
+        osc.stop(ctx.currentTime + 0.5);
+      } catch(e) {}
+    }
+
+    function launchSequentialLetterRockets() {
+      const name = "MADHUMITHA";
+      const colors = ['#f43f5e', '#fbbf24', '#38bdf8', '#c084fc', '#34d399', '#f43f5e', '#fbbf24', '#38bdf8', '#c084fc', '#34d399'];
+      const total = name.length;
+      
+      const padding = window.innerWidth > 768 ? 100 : 30;
+      const availableWidth = canvas.width - (padding * 2);
+      const step = availableWidth / (total - 1);
+      const targetY = window.innerHeight * 0.32;
+
+      for (let i = 0; i < total; i++) {
+        const targetX = padding + (i * step);
+        const startX = canvas.width * 0.5 + (Math.random() - 0.5) * 200;
+        const delay = i * 22; // launch sequentially
+        activeRockets.push(new Rocket(startX, targetX, targetY, name[i], colors[i], delay));
+      }
+    }
+
+    // Animation Loop
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Update & draw active rockets
+      activeRockets.forEach((rocket, index) => {
+        rocket.update();
+        rocket.draw();
+        if (rocket.exploded) {
+          activeRockets.splice(index, 1);
+        }
+      });
+
+      // Update & draw letter emblems
+      letterEmblems.forEach((emblem, index) => {
+        emblem.update();
+        emblem.draw();
+        if (emblem.life <= 0) {
+          letterEmblems.splice(index, 1);
+        }
+      });
+
+      // Update & draw spark and burst particles
+      particles.forEach((particle, index) => {
+        particle.update();
+        particle.draw();
+        if (particle.alpha <= 0) {
+          particles.splice(index, 1);
+        }
+      });
+
+      requestAnimationFrame(animate);
+    }
+    animate();
+  </script>
+</body>
+</html>
